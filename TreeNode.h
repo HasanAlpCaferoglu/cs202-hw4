@@ -40,7 +40,7 @@ public:
     bool isLeaf() const;
 
     // friend class - giving permission to access the private data members to the friend class
-    friend class AVLTree;
+    friend class AvlTree;
 };
 
 

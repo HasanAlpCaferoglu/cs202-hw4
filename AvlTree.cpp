@@ -63,8 +63,11 @@ void AvlTree::generateTree(const string& fileName){
             // Deleting puctuations
             word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
             // Converting to lower case
-            for (char& c : word) {
-                c = std::tolower(c);
+            // for (char& c : word) {
+            //     c = std::tolower(c);
+            // }
+            for (size_t i = 0; i < word.size(); ++i) {
+                word[i] = std::tolower(word[i]);
             }
             if (!word.empty()) {
                 // add the word to the tree
@@ -243,17 +246,17 @@ void AvlTree::rightLeftRotate(TreeNode*& node){
 //------------------------------------------------------------ 
 // Traversal Functions
 //------------------------------------------------------------
-void AvlTree::inorderTraverse(void visit(string& anItem, int& count)) const{
-    inorderHelper(visit, rootPtr);
+void AvlTree::inorderTraverse(FunctionType visit) {
+    inorderHelper(rootPtr, visit);
 } // end inorderTraverse
 
-void AvlTree::inorderHelper(void visit(string& anItem, int& count), TreeNode* treePtr) const{
+void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit) {
     if(treePtr != nullptr){
-        inorderHelper(visit, treePtr->leftChildPtr);
+        inorderHelper(treePtr->leftChildPtr, visit);
         string theNodeItem = treePtr->item;
         int theItemCount = treePtr->count;
         visit(theNodeItem, theItemCount);
-        inorderHelper(visit, treePtr->rightChildPtr);
+        inorderHelper(treePtr->rightChildPtr, visit);
     } // end if
 } // end inorder
 

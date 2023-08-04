@@ -67,8 +67,9 @@ protected:
     //------------------------------------------------------------ 
     // Traversal Functions
     //------------------------------------------------------------
-    void inorderTraverse(void visit(string& anItem, int& count)) const;
-    void inorderHelper(void visit(string& anItem, int& count), TreeNode* treePtr) const;
+    typedef void (*FunctionType)(string& anItem, int& count);
+    void inorderTraverse(FunctionType visit) ;
+    void inorderHelper(TreeNode* treePtr, FunctionType visit) ;
 
 };
 

@@ -14,6 +14,9 @@
 #include <iostream>
 using namespace std;
 
+// Function prototype for displayNodeProperties
+void displayNodeProperties(string& anItem, int& count);
+
 class AvlTree
 {
 private:
@@ -68,8 +71,8 @@ protected:
     // Traversal Functions
     //------------------------------------------------------------
     typedef void (*FunctionType)(string& anItem, int& count);
-    void inorderTraverse(FunctionType visit) ;
-    void inorderHelper(TreeNode* treePtr, FunctionType visit) ;
+    void inorderTraverse(FunctionType visit) const;
+    void inorderHelper(TreeNode* treePtr, FunctionType visit) const;
 
 };
 

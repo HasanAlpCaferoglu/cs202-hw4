@@ -71,6 +71,7 @@ void AvlTree::generateTree(const string& fileName){
             }
             if (!word.empty()) {
                 // add the word to the tree
+                cout << word << endl;           // DELETE LATER
                 addWord(word);
             }
         } 
@@ -85,6 +86,7 @@ void AvlTree::addWord(const string& newItem){
 }
 
 void AvlTree::printHeight() const{
+    // cout << rootPtr->item << endl;
     cout << getTreeHeight() << endl;
 }
 
@@ -244,13 +246,20 @@ void AvlTree::rightLeftRotate(TreeNode*& node){
 } // end rightLeftRotate
 
 //------------------------------------------------------------ 
+// Global Functions Functions
+//------------------------------------------------------------
+void displayNodeProperties(string& anItem, int& count){
+    cout << "\"" << anItem << "\" appears " << count << " time(s)" << endl;
+}
+
+//------------------------------------------------------------ 
 // Traversal Functions
 //------------------------------------------------------------
-void AvlTree::inorderTraverse(FunctionType visit) {
+void AvlTree::inorderTraverse(FunctionType visit) const{
     inorderHelper(rootPtr, visit);
 } // end inorderTraverse
 
-void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit) {
+void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit) const{
     if(treePtr != nullptr){
         inorderHelper(treePtr->leftChildPtr, visit);
         string theNodeItem = treePtr->item;
@@ -259,26 +268,5 @@ void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit) {
         inorderHelper(treePtr->rightChildPtr, visit);
     } // end if
 } // end inorder
-
-// Global displayNodeProperties function
-void displayNodeProperties(string& anItem, int& count){
-    cout << "\"" << anItem << "\" appears " << count << " time(s)" << endl;
-}
-
-/*
-// NOT NEEDED
-
-int AvlTree::getHeightHelper(TreeNode* subTreePtr) const{
-    if(subTreePtr == nullptr)
-        return 0;
-    else
-        return 1 + max(getHeightHelper(subTreePtr->leftChildPtr), getHeightHelper(subTreePtr->rightChildPtr));
-}
-
-int AvlTree::getNodeBalanceFactor(TreeNode* treePtr) const{
-    return getHeightHelper(treePtr->leftChildPtr) - getHeightHelper(treePtr->rightChildPtr);
-}
-
-*/
 
 

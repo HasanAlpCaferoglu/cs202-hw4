@@ -18,7 +18,6 @@ class TreeNode
 private:
     string item;
     int count;
-    int balanceFactor;  // if left heavy 1, if right heavy -1, otherwise 0
     int height; // 1 if the node has no child
     TreeNode* leftChildPtr;
     TreeNode* rightChildPtr;
@@ -37,15 +36,8 @@ public:
     void setLeftChildPtr( TreeNode* leftPtr);
     void setRightChildPtr( TreeNode* rightPtr);
 
-    int getBalanceFactor() const;
-    void setBalanceFactor(const int newBalanceFactor);
-    void incrementBalanceFactor();
-    void decrementBalanceFactor();
-
     int getHeight() const;
     void setHeight(const int newHeight);
-    void incrementHeight();
-    void decrementHeight();
 
     // Other Member Functions
     void increaseCount();

@@ -10,11 +10,11 @@
 #include "TreeNode.h"
  
 
-TreeNode::TreeNode():count(0), balanceFactor(0), height(0), leftChildPtr(nullptr), rightChildPtr(nullptr)
+TreeNode::TreeNode():count(0), height(0), leftChildPtr(nullptr), rightChildPtr(nullptr)
 {
 }
 
-TreeNode::TreeNode(const string& anItem):count(1), item(anItem), balanceFactor(0), height(1), leftChildPtr(nullptr), rightChildPtr(nullptr)
+TreeNode::TreeNode(const string& anItem):count(1), item(anItem), height(1), leftChildPtr(nullptr), rightChildPtr(nullptr)
 {
 }
 
@@ -53,22 +53,6 @@ void TreeNode::setRightChildPtr(TreeNode* rightPtr){
     rightChildPtr = rightPtr;
 }
 
-int TreeNode::getBalanceFactor() const{
-    return balanceFactor;
-} 
-
-void TreeNode::setBalanceFactor(const int newBalanceFactor){
-    balanceFactor = newBalanceFactor;
-}
-
-void TreeNode::incrementBalanceFactor(){
-    balanceFactor++;
-}
-
-void TreeNode::decrementBalanceFactor(){
-    balanceFactor--;
-}
-
 int TreeNode::getHeight() const{
     return height;
 }
@@ -77,15 +61,7 @@ void TreeNode::setHeight(const int newHeight){
     height = newHeight;
 }
 
-void TreeNode::incrementHeight(){
-    height++;
-}
-
-void TreeNode::decrementHeight(){
-    height--;
-}
 // Other Member Functions
-
 void TreeNode::increaseCount(){
     count++;
 }

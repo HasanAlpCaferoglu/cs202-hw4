@@ -51,30 +51,58 @@ void AvlTree::generateTree(const string& fileName){
         return;
     }
 
-    string line;
+    // string line;
     
-    while(getline(inFile, line)){
-        istringstream iss(line);
-        string word;
+    // while(getline(inFile, line)){
+    //     istringstream iss(line);
+    //     string word;
 
-        // Examining the words in the line
-        // words are extracted according to whitespaces
-        while(iss >> word){
-            // Deleting puctuations
-            word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
-            // Converting to lower case
-            // for (char& c : word) {
-            //     c = std::tolower(c);
-            // }
-            for (size_t i = 0; i < word.size(); ++i) {
-                word[i] = std::tolower(word[i]);
+    //     // Examining the words in the line
+    //     // words are extracted according to whitespaces
+    //     while(iss >> word){
+    //         // Deleting puctuations
+    //         word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
+        
+    //         for (size_t i = 0; i < word.size(); ++i) {
+    //             word[i] = std::tolower(word[i]);
+    //         }
+    //         if (!word.empty()) {
+    //             // add the word to the tree
+    //             cout << word << endl;           // DELETE LATER
+    //             addWord(word);
+    //         }
+    //     } 
+    // }
+
+    string aWord;
+
+    while(inFile >> aWord){
+        int startPos = 0;
+        int endPos = 1;
+
+        while(startPos < aWord.size()){
+            // get the first non-punct char 
+            while( ispunct(aWord[startPos]) ){
+                startPos++;
             }
-            if (!word.empty()) {
-                // add the word to the tree
-                cout << word << endl;           // DELETE LATER
-                addWord(word);
+            
+            endPos = startPos+1;   // set endPost
+            // get the positon of a char upto a punctionation
+            while( !ispunct(aWord[endPos]) && endPos < aWord.size()){
+                endPos++;
             }
-        } 
+            
+            string wordToBeAdded = aWord.substr(startPos, endPos-startPos); // Extract the substring
+            // convert to lowercase
+            int length = endPos-startPos;
+            for(int i = 0; i < length; i++){
+                wordToBeAdded[i] = tolower(wordToBeAdded[i]);
+            }
+            startPos = endPos+1;    //update the startPos for the next possible word
+
+            cout << wordToBeAdded << endl;           // DELETE LATER
+            addWord(wordToBeAdded); // addition of the word to the AVL tree
+        }
     }
 }
 

@@ -21,6 +21,22 @@ AvlTree::~AvlTree(){
 
 }
 
+// General Functions
+int AvlTree::getHeight() const{
+    return getHeightHelper(rootPtr);
+} // end getHeight
+
+int AvlTree::getHeightHelper(TreeNode* subTreePtr) const{
+    if(subTreePtr == nullptr)
+        return 0;
+    else
+        return 1 + max(getHeightHelper(subTreePtr->leftChildPtr), getHeightHelper(subTreePtr->rightChildPtr));
+}
+
+int AvlTree::getNodeBalanceFactor(TreeNode* treePtr) const{
+    return getHeightHelper(treePtr->leftChildPtr) - getHeightHelper(treePtr->rightChildPtr);
+}
+
 // Desired Functions
 
 void AvlTree::generateTree(const string& fileName){
@@ -62,27 +78,27 @@ void AvlTree::addWord(const string& newItem){
 }
 
 void AvlTree::printHeight() const{
-
+    /* Write Code Here */
 }
 
 void AvlTree::printTotalWordCount() const{
-
+    /* Write Code Here */
 }
 
 void AvlTree::printWordFrequencies() const{
-
+    /* Write Code Here */
 }
 
 void AvlTree::printMostFrequent() const{
-
+    /* Write Code Here */
 }
 
 void AvlTree::printLeastFrequent() const{
-
+    /* Write Code Here */
 }
 
 void AvlTree::printStandartDeviation() const{
-
+    /* Write Code Here */
 }
 
 // Helper Functions
@@ -106,10 +122,63 @@ TreeNode* AvlTree::findNode(TreeNode* subTreePtr, const string& target) const{
 } // end findNode
 
 void AvlTree::incrementCount(const string& existingItem){
-
+    TreeNode* theNode = findNode(rootPtr, existingItem);
+    theNode->increaseCount();
 }
 
 void AvlTree::addWordHelper(TreeNode*& treePtr, const string& newItem){
+    if(treePtr==nullptr){
+        treePtr =  new TreeNode(newItem);
+        return;
+    }
+    else if(treePtr->item > newItem){
+        addWordHelper(treePtr->leftChildPtr, newItem);
+    }
+    else{
+        addWordHelper(treePtr->rightChildPtr, newItem);
+    }
+
+    int currentNodeHight;
+    int nodeBalanceFactor;
+    if(treePtr->leftChildPtr != nullptr && treePtr->rightChildPtr != nullptr){
+        nodeBalanceFactor = treePtr->leftChildPtr->getHeight() - treePtr->rightChildPtr->getHeight();
+        currentNodeHight = 1+max(treePtr->leftChildPtr->getHeight(), treePtr->rightChildPtr->getHeight());
+    }
+    else if(treePtr->leftChildPtr != nullptr){
+        nodeBalanceFactor = treePtr->leftChildPtr->getHeight();
+        currentNodeHight = 1 + treePtr->leftChildPtr->getHeight();
+    }
+    else if(treePtr->rightChildPtr != nullptr){
+        nodeBalanceFactor = - treePtr->rightChildPtr->getHeight();
+        currentNodeHight = 1 + treePtr->rightChildPtr->getHeight();
+    }
+    else{
+        nodeBalanceFactor = 0;
+        currentNodeHight = 1;
+    }
+
+    treePtr->setHeight(currentNodeHight); // setting current Node Height
+    // treePtr->setBalanceFactor(nodeBalanceFactor);
+
+    // left-left case
+    if(nodeBalanceFactor > 1 && newItem < treePtr->leftChildPtr->item){
+
+    }
+
+    // right-right case
+    if(nodeBalanceFactor < -1 && newItem > treePtr->rightChildPtr->item){
+
+    }
+
+    // left-right case
+    if(nodeBalanceFactor > 1 && newItem > treePtr->leftChildPtr->item){
+
+    }
+
+    // right-left case
+    if(nodeBalanceFactor < -1 && newItem < treePtr->rightChildPtr->item){
+
+    }
+
 
 }
-

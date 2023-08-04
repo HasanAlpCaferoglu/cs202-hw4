@@ -22,6 +22,12 @@ public:
     AvlTree();
     ~AvlTree();
 
+    // General Funtions
+    int getHeight() const;
+    int getHeightHelper(TreeNode* subTreePtr) const;
+    int getNodeBalanceFactor(TreeNode* treePtr) const;
+    
+
     // Desired Functions
     void generateTree(const string& fileName);
     void addWord(const string& newItem);

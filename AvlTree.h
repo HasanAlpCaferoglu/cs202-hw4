@@ -19,6 +19,7 @@ void displayNodeProperties(string& anItem, int& count);
 void printWordToFile(const string& fileName, string& anitem, int& count);
 void findMaxFrequent(string& anItem, int& count, string& mostFreqString, int& maxCount );
 void findLeastFrequent(string& anItem, int& count, string& leastFreqString, int& minCount );
+void putCountsInArray( int*& anArray, int& position, int& count);
 
 class AvlTree
 {
@@ -48,7 +49,7 @@ public:
     void printWordFrequencies(const string& fileName) const;
     void printMostFrequent(const string& fileName);
     void printLeastFrequent(const string& fileName);
-    void printStandartDeviation(const string& fileName) const;
+    void printStandartDeviation(const string& fileName);
 
 protected:
     //------------------------------------------------------------ 
@@ -79,8 +80,12 @@ protected:
     void inorderHelper(TreeNode* treePtr, FunctionType visit, const string& fileName) const;
 
     typedef void (*FunctionType2)(string& anItem, int& count, string& theString, int& theCount);
-    void inorderTreverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount);
+    void inorderTraverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount);
     void inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode, string& theString, int& theCount);
+
+    typedef void (*FunctionType3)(int*& anArray, int& position, int& count);
+    void inorderTraverseForStd(FunctionType3 visit, int*& anArray, int& position);
+    void inorderHelperForStd(TreeNode* treePtr, FunctionType3 visit, int*& anArray, int& position);
 
 };
 

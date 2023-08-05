@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 using namespace std;
 
 //------------------------------------------------------------ 
@@ -163,7 +164,7 @@ void AvlTree::printMostFrequent(const string& fileName) {
         return;
     }
 
-    inorderTreverseForMinMax(findMaxFrequent, mostFreqString, maxCount);
+    inorderTraverseForMinMax(findMaxFrequent, mostFreqString, maxCount);
 
     statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
 
@@ -185,7 +186,7 @@ void AvlTree::printLeastFrequent(const string& fileName) {
         return;
     }
 
-    inorderTreverseForMinMax(findLeastFrequent, leastFreqString, minCount);
+    inorderTraverseForMinMax(findLeastFrequent, leastFreqString, minCount);
 
     statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
 
@@ -195,7 +196,7 @@ void AvlTree::printLeastFrequent(const string& fileName) {
     cout << "Least Frequent: " << leastFreqString << " " << minCount << endl;                           // DELETE LATER
 }
 
-void AvlTree::printStandartDeviation(const string& fileName) const{
+void AvlTree::printStandartDeviation(const string& fileName){
     // Open the output files
     ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
@@ -204,9 +205,29 @@ void AvlTree::printStandartDeviation(const string& fileName) const{
         return;
     }
 
-    float standardDeviation = 5.76;
+    int itemCount = getNumberOfNodesHelper(rootPtr);
+    int* countArray = new int[itemCount];
+    int position = 0;
+    inorderTraverseForStd(putCountsInArray, countArray, position);
 
+    float sum = 0;
+    for(int i = 0; i < itemCount; i++){
+        sum += countArray[i];
+    }
+    float mean = sum / itemCount;
+    
+    float sumOfDifferenceSquare = 0;
+    for(int i = 0; i < itemCount; i++){
+        sumOfDifferenceSquare += pow((countArray[i] - mean), 2);
+    }
+
+    float standardDeviation = sqrt(sumOfDifferenceSquare / itemCount);
     statisticsFile << "Standard Deviation: " << standardDeviation << endl;
+    cout << "Standard Deviation: " << standardDeviation << endl;                    //DELETE LATER
+
+    // delete the array
+    delete[] countArray;
+    countArray = nullptr;
 
     // Close the output files
     statisticsFile.close();
@@ -363,11 +384,11 @@ void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit, const string&
         visit(fileName, theNodeItem, theItemCount);
         inorderHelper(treePtr->rightChildPtr, visit, fileName);
     } // end if
-} // end inorder
+} // end inorderHelper
 
-void AvlTree::inorderTreverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount) {
+void AvlTree::inorderTraverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount) {
     inorderHelperForMinMax(rootPtr, visitNode, theString, theCount);
-} // end inorderTraverse
+} // end inorderTraverseForMinMax
 
 void AvlTree::inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode, string& theString, int& theCount) {
     if(treePtr != nullptr){
@@ -377,7 +398,20 @@ void AvlTree::inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode,
         visitNode(theNodeItem, theItemCount, theString, theCount);
         inorderHelperForMinMax(treePtr->rightChildPtr, visitNode, theString, theCount);
     } // end if
-} // end inorder
+} // end inorderHelperForMinMax
+
+void AvlTree::inorderTraverseForStd(FunctionType3 visit, int*& anArray, int& position){
+    inorderHelperForStd(rootPtr, visit, anArray, position);
+} // end inorderTraverseForStd
+
+void AvlTree::inorderHelperForStd(TreeNode* treePtr, FunctionType3 visit, int*& anArray, int& position){
+    if(treePtr != nullptr){
+        inorderHelperForStd(treePtr->leftChildPtr, visit, anArray, position);
+        int theItemCount = treePtr->count;
+        visit(anArray, position, theItemCount);
+        inorderHelperForStd(treePtr->rightChildPtr, visit, anArray, position);
+    } // end if
+} // end inorderHelperForStd
 
 
 //------------------------------------------------------------ 
@@ -413,4 +447,9 @@ void findLeastFrequent( string& anItem, int& count, string& leastFreqString, int
         minCount = count;
         leastFreqString = anItem;
     }
+}
+
+void putCountsInArray( int*& anArray, int& position, int& count){
+    anArray[position] = count;
+    position++;
 }

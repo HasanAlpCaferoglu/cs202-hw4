@@ -148,10 +148,10 @@ void AvlTree::printTotalWordCount(const string& fileName) const{
 }
 
 void AvlTree::printWordFrequencies(const string& fileName) const{
-    inorderTraverse(displayNodeProperties);
+    inorderTraverse(printWordToFile, fileName);
 }
 
-void AvlTree::printMostFrequent(const string& fileName) const{
+void AvlTree::printMostFrequent(const string& fileName) {
     int maxCount = rootPtr->count;
     string mostFreqString = rootPtr->item;
 
@@ -163,6 +163,8 @@ void AvlTree::printMostFrequent(const string& fileName) const{
         return;
     }
 
+    inorderTreverseForMinMax(findMaxFrequent, mostFreqString, maxCount);
+
     statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
 
     // Close the output files
@@ -171,7 +173,7 @@ void AvlTree::printMostFrequent(const string& fileName) const{
     cout << "Most Frequent: " << mostFreqString << " " << maxCount << endl;                                  // DELETE LATER
 }
 
-void AvlTree::printLeastFrequent(const string& fileName) const{
+void AvlTree::printLeastFrequent(const string& fileName) {
     int minCount = rootPtr->count;
     string leastFreqString = rootPtr->item;
 
@@ -183,12 +185,14 @@ void AvlTree::printLeastFrequent(const string& fileName) const{
         return;
     }
 
+    inorderTreverseForMinMax(findLeastFrequent, leastFreqString, minCount);
+
     statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
 
     // Close the output files
     statisticsFile.close();
 
-    cout << "Least Frequent" << leastFreqString << " " << minCount << endl;
+    cout << "Least Frequent: " << leastFreqString << " " << minCount << endl;                           // DELETE LATER
 }
 
 void AvlTree::printStandartDeviation(const string& fileName) const{
@@ -343,6 +347,39 @@ void AvlTree::rightLeftRotate(TreeNode*& node){
     leftRotate(node);
 } // end rightLeftRotate
 
+
+//------------------------------------------------------------ 
+// Traversal Functions
+//------------------------------------------------------------
+void AvlTree::inorderTraverse(FunctionType visit, const string& fileName) const{
+    inorderHelper(rootPtr, visit, fileName);
+} // end inorderTraverse
+
+void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit, const string& fileName) const{
+    if(treePtr != nullptr){
+        inorderHelper(treePtr->leftChildPtr, visit, fileName);
+        string theNodeItem = treePtr->item;
+        int theItemCount = treePtr->count;
+        visit(fileName, theNodeItem, theItemCount);
+        inorderHelper(treePtr->rightChildPtr, visit, fileName);
+    } // end if
+} // end inorder
+
+void AvlTree::inorderTreverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount) {
+    inorderHelperForMinMax(rootPtr, visitNode, theString, theCount);
+} // end inorderTraverse
+
+void AvlTree::inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode, string& theString, int& theCount) {
+    if(treePtr != nullptr){
+        inorderHelperForMinMax(treePtr->leftChildPtr, visitNode, theString, theCount);
+        string theNodeItem = treePtr->item;
+        int theItemCount = treePtr->count;
+        visitNode(theNodeItem, theItemCount, theString, theCount);
+        inorderHelperForMinMax(treePtr->rightChildPtr, visitNode, theString, theCount);
+    } // end if
+} // end inorder
+
+
 //------------------------------------------------------------ 
 // Global Functions Functions
 //------------------------------------------------------------
@@ -350,21 +387,30 @@ void displayNodeProperties(string& anItem, int& count){
     cout << "\"" << anItem << "\" appears " << count << " time(s)" << endl;
 }
 
-//------------------------------------------------------------ 
-// Traversal Functions
-//------------------------------------------------------------
-void AvlTree::inorderTraverse(FunctionType visit) const{
-    inorderHelper(rootPtr, visit);
-} // end inorderTraverse
+void printWordToFile(const string& fileName, string& anItem, int& count){
+    // Open the output files
+    ofstream wordFreqFile(fileName, std::ios::app);
+    // check if the files are open
+    if (!wordFreqFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+    // print word and its count
+    wordFreqFile << anItem << " " << count << endl;
+    // close file
+    wordFreqFile.close();
+}
 
-void AvlTree::inorderHelper(TreeNode* treePtr, FunctionType visit) const{
-    if(treePtr != nullptr){
-        inorderHelper(treePtr->leftChildPtr, visit);
-        string theNodeItem = treePtr->item;
-        int theItemCount = treePtr->count;
-        visit(theNodeItem, theItemCount);
-        inorderHelper(treePtr->rightChildPtr, visit);
-    } // end if
-} // end inorder
+void findMaxFrequent(string& anItem, int& count, string& mostFreqString, int& maxCount ){
+    if(count > maxCount){
+        maxCount = count;
+        mostFreqString = anItem;
+    }
+}
 
-
+void findLeastFrequent( string& anItem, int& count, string& leastFreqString, int& minCount ){
+    if(count < minCount){
+        minCount = count;
+        leastFreqString = anItem;
+    }
+}

@@ -14,8 +14,11 @@
 #include <iostream>
 using namespace std;
 
-// Function prototype for displayNodeProperties
+// Function prototype for displayNodeProperties and printWordToFile
 void displayNodeProperties(string& anItem, int& count);
+void printWordToFile(const string& fileName, string& anitem, int& count);
+void findMaxFrequent(string& anItem, int& count, string& mostFreqString, int& maxCount );
+void findLeastFrequent(string& anItem, int& count, string& leastFreqString, int& minCount );
 
 class AvlTree
 {
@@ -43,8 +46,8 @@ public:
     void printHeight(const string& fileName) const;
     void printTotalWordCount(const string& fileName) const;
     void printWordFrequencies(const string& fileName) const;
-    void printMostFrequent(const string& fileName) const;
-    void printLeastFrequent(const string& fileName) const;
+    void printMostFrequent(const string& fileName);
+    void printLeastFrequent(const string& fileName);
     void printStandartDeviation(const string& fileName) const;
 
 protected:
@@ -71,9 +74,13 @@ protected:
     //------------------------------------------------------------ 
     // Traversal Functions
     //------------------------------------------------------------
-    typedef void (*FunctionType)(string& anItem, int& count);
-    void inorderTraverse(FunctionType visit) const;
-    void inorderHelper(TreeNode* treePtr, FunctionType visit) const;
+    typedef void (*FunctionType)(const string& fileName, string& anItem, int& count);
+    void inorderTraverse(FunctionType visit, const string& fileName) const;
+    void inorderHelper(TreeNode* treePtr, FunctionType visit, const string& fileName) const;
+
+    typedef void (*FunctionType2)(string& anItem, int& count, string& theString, int& theCount);
+    void inorderTreverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount);
+    void inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode, string& theString, int& theCount);
 
 };
 

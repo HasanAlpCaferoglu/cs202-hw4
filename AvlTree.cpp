@@ -152,8 +152,8 @@ void AvlTree::printWordFrequencies(const string& fileName) const{
 }
 
 void AvlTree::printMostFrequent(const string& fileName) {
-    int maxCount = rootPtr->count;
-    string mostFreqString = rootPtr->item;
+    int maxCount = rootPtr->count;              // initial assignment
+    string mostFreqString = rootPtr->item;      // initial assignment
 
     // Open the output files
     ofstream statisticsFile(fileName, std::ios::app);
@@ -174,8 +174,8 @@ void AvlTree::printMostFrequent(const string& fileName) {
 }
 
 void AvlTree::printLeastFrequent(const string& fileName) {
-    int minCount = rootPtr->count;
-    string leastFreqString = rootPtr->item;
+    int minCount = rootPtr->count;              // initial assignment
+    string leastFreqString = rootPtr->item;     // initial assignment
 
     // Open the output files
     ofstream statisticsFile(fileName, std::ios::app);

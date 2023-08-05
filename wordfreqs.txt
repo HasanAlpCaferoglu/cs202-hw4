@@ -1,7 +1,7 @@
 and 1
 first 1
 fourth 1
-second 1
+second 2
 third 1
 this 1
 word 4

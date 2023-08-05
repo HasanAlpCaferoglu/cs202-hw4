@@ -1,5 +1,5 @@
 Total Word Count: 7
 Tree Height: 3
 Most Frequent: word 4
-Least Frequent: second 1
+Least Frequent: and 1
 Standard Deviation: 5.76

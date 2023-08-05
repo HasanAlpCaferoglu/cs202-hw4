@@ -38,13 +38,14 @@ public:
     // Desired Functions
     //------------------------------------------------------------
     void generateTree(const string& fileName);
+    void generateOutputFiles(const string& outputFileName1, const string& outputFileName2);
     void addWord(const string& newItem);
-    void printHeight() const;
-    void printTotalWordCount() const;
-    void printWordFrequencies() const;
-    void printMostFrequent() const;
-    void printLeastFrequent() const;
-    void printStandartDeviation() const;
+    void printHeight(const string& fileName) const;
+    void printTotalWordCount(const string& fileName) const;
+    void printWordFrequencies(const string& fileName) const;
+    void printMostFrequent(const string& fileName) const;
+    void printLeastFrequent(const string& fileName) const;
+    void printStandartDeviation(const string& fileName) const;
 
 protected:
     //------------------------------------------------------------ 

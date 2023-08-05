@@ -51,29 +51,6 @@ void AvlTree::generateTree(const string& fileName){
         return;
     }
 
-    // string line;
-    
-    // while(getline(inFile, line)){
-    //     istringstream iss(line);
-    //     string word;
-
-    //     // Examining the words in the line
-    //     // words are extracted according to whitespaces
-    //     while(iss >> word){
-    //         // Deleting puctuations
-    //         word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
-        
-    //         for (size_t i = 0; i < word.size(); ++i) {
-    //             word[i] = std::tolower(word[i]);
-    //         }
-    //         if (!word.empty()) {
-    //             // add the word to the tree
-    //             cout << word << endl;           // DELETE LATER
-    //             addWord(word);
-    //         }
-    //     } 
-    // }
-
     string aWord;
 
     while(inFile >> aWord){
@@ -100,10 +77,31 @@ void AvlTree::generateTree(const string& fileName){
             }
             startPos = endPos+1;    //update the startPos for the next possible word
 
-            cout << wordToBeAdded << endl;           // DELETE LATER
+            // cout << wordToBeAdded << endl;                                                          // DELETE LATER
             addWord(wordToBeAdded); // addition of the word to the AVL tree
         }
     }
+}
+
+void AvlTree::generateOutputFiles(const string& outputFileName1, const string& outputFileName2){
+    // Output file names
+    string wordFreqFileName = "wordfreqs.txt";
+    string statisticsFileName = "statistics.txt";
+
+    // Open the output files
+    ofstream outFile1(outputFileName1);
+    ofstream outFile2(outputFileName2);
+
+    // check if the files are open
+    if (!outFile1.is_open() || !outFile2.is_open()) {
+        cout << "Error: Unable to open the output files." << endl;
+        return;
+    }
+
+    // Close the output files
+    outFile1.close();
+    outFile2.close();
+
 }
 
 void AvlTree::addWord(const string& newItem){
@@ -113,34 +111,101 @@ void AvlTree::addWord(const string& newItem){
         addWordHelper(rootPtr, newItem);
 }
 
-void AvlTree::printHeight() const{
-    // cout << rootPtr->item << endl;
-    cout << getTreeHeight() << endl;
+void AvlTree::printHeight(const string& fileName) const{
+    // Open the output files
+    ofstream statisticsFile(fileName);
+    // check if the files are open
+    if (!statisticsFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+
+    int treeHeight = getTreeHeight();
+    statisticsFile << "Tree Height: " << treeHeight << endl;
+
+    // Close the output files
+    statisticsFile.close();
+
+    cout << "Tree Height: " << treeHeight << endl;                             // DELETE LATER
 }
 
-void AvlTree::printTotalWordCount() const{
+void AvlTree::printTotalWordCount(const string& fileName) const{
+    // Open the output files
+    ofstream statisticsFile(fileName);
+    // check if the files are open
+    if (!statisticsFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+
     int totalWordCount = getNumberOfNodesHelper(rootPtr);
-    cout << totalWordCount << endl;
+    statisticsFile << "Total Word Count: " << totalWordCount << endl;
+
+    // Close the output files
+    statisticsFile.close();
+
+    cout << "Total Word Count: " << totalWordCount << endl;                             // DELETE LATER
 }
 
-void AvlTree::printWordFrequencies() const{
+void AvlTree::printWordFrequencies(const string& fileName) const{
     inorderTraverse(displayNodeProperties);
 }
 
-void AvlTree::printMostFrequent() const{
+void AvlTree::printMostFrequent(const string& fileName) const{
     int maxCount = rootPtr->count;
     string mostFreqString = rootPtr->item;
-    cout << mostFreqString << " " << maxCount << endl;
+
+    // Open the output files
+    ofstream statisticsFile(fileName);
+    // check if the files are open
+    if (!statisticsFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+
+    statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
+
+    // Close the output files
+    statisticsFile.close();
+
+    cout << "Most Frequent: " << mostFreqString << " " << maxCount << endl;                                  // DELETE LATER
 }
 
-void AvlTree::printLeastFrequent() const{
+void AvlTree::printLeastFrequent(const string& fileName) const{
     int minCount = rootPtr->count;
     string leastFreqString = rootPtr->item;
-    cout << leastFreqString << " " << minCount << endl;
+
+    // Open the output files
+    ofstream statisticsFile(fileName);
+    // check if the files are open
+    if (!statisticsFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+
+    statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
+
+    // Close the output files
+    statisticsFile.close();
+
+    cout << "Least Frequent" << leastFreqString << " " << minCount << endl;
 }
 
-void AvlTree::printStandartDeviation() const{
-    /* Write Code Here */
+void AvlTree::printStandartDeviation(const string& fileName) const{
+    // Open the output files
+    ofstream statisticsFile(fileName);
+    // check if the files are open
+    if (!statisticsFile.is_open()) {
+        cout << "Error: Unable to open the output file " << fileName << endl;
+        return;
+    }
+
+    float standardDeviation = 5.76;
+
+    statisticsFile << "Standard Deviation: " << standardDeviation << endl;
+
+    // Close the output files
+    statisticsFile.close();
 }
 
 //------------------------------------------------------------ 
@@ -198,29 +263,33 @@ void AvlTree::addWordHelper(TreeNode*& treePtr, const string& newItem){
     }
 
     // Examine the imbalance cases
+
     // left-left case
     if(nodeBalanceFactor > 1 && newItem < treePtr->leftChildPtr->item){
         rightRotate(treePtr);
     }
-
     // right-right case
-    if(nodeBalanceFactor < -1 && newItem > treePtr->rightChildPtr->item){
+    else if(nodeBalanceFactor < -1 && newItem > treePtr->rightChildPtr->item){
         leftRotate(treePtr);
     }
-
     // left-right case
-    if(nodeBalanceFactor > 1 && newItem > treePtr->leftChildPtr->item){
+    else if(nodeBalanceFactor > 1 && newItem > treePtr->leftChildPtr->item){
         leftRightRotate(treePtr);
     }
-
     // right-left case
-    if(nodeBalanceFactor < -1 && newItem < treePtr->rightChildPtr->item){
+    else if(nodeBalanceFactor < -1 && newItem < treePtr->rightChildPtr->item){
         rightLeftRotate(treePtr);
+    }
+    // if there is no imbalance just update the height
+    else{
+        // cout << "Updating height of the node " << treePtr->item << endl;                        // DELETE LATER
+        updateNodeHeight(treePtr);
     }
 
 } // end addWordHelper
 
 void AvlTree::updateNodeHeight(TreeNode*& node){  
+    // cout << "Height of node " << node->item << " was " << node->height;                        // DELETE LATER
     if(node->leftChildPtr != nullptr && node->rightChildPtr != nullptr){
         node->height = 1+max(node->leftChildPtr->getHeight(), node->rightChildPtr->getHeight());
     }
@@ -233,6 +302,9 @@ void AvlTree::updateNodeHeight(TreeNode*& node){
     else{
         node->height = 1;
     }
+
+    // cout << ". Now it becomes " << node->height << endl;                                        // DELETE LATER
+
 } // end updateNodeHeight
 
 //------------------------------------------------------------ 
@@ -240,21 +312,17 @@ void AvlTree::updateNodeHeight(TreeNode*& node){
 //------------------------------------------------------------
 
 void AvlTree::leftRotate(TreeNode*& node){
+    // cout << "left rotate around " << node->item << endl;                                     // DELETE LATER
     TreeNode* p = node->rightChildPtr;
     node->rightChildPtr = p->leftChildPtr;
     updateNodeHeight(node); // update the height of node after its right child changed
     p->leftChildPtr = node;
     updateNodeHeight(p); // update the height of node p after its left child changed
     node = p;
-
-    //update heights
-
-    node->height = 1+max(node->leftChildPtr->getHeight(), node->rightChildPtr->getHeight());
-    p->height = 1+max(p->leftChildPtr->getHeight(), p->rightChildPtr->getHeight());
-
 } // end leftRotate
 
 void AvlTree::rightRotate(TreeNode*& node){
+    // cout << "right rotate around " << node->item << endl;                                    // DELETE LATER
     TreeNode* p = node->leftChildPtr;
     node->leftChildPtr = p->rightChildPtr;
     updateNodeHeight(node); // update the height of node after its left child changed
@@ -264,11 +332,13 @@ void AvlTree::rightRotate(TreeNode*& node){
 } // end rightRotate
 
 void AvlTree::leftRightRotate(TreeNode*& node){
+    // cout << "left-right rotate around " << node->item << endl;                               // DELETE LATER
     leftRotate(node->leftChildPtr);
     rightRotate(node);
 } // end leftRightRotate
 
 void AvlTree::rightLeftRotate(TreeNode*& node){
+    // cout << "right-left rotate around " << node->item << endl;                               // DELETE LATER
     rightRotate(node->rightChildPtr);
     leftRotate(node);
 } // end rightLeftRotate

@@ -113,7 +113,7 @@ void AvlTree::addWord(const string& newItem){
 
 void AvlTree::printHeight(const string& fileName) const{
     // Open the output files
-    ofstream statisticsFile(fileName);
+    ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
     if (!statisticsFile.is_open()) {
         cout << "Error: Unable to open the output file " << fileName << endl;
@@ -131,7 +131,7 @@ void AvlTree::printHeight(const string& fileName) const{
 
 void AvlTree::printTotalWordCount(const string& fileName) const{
     // Open the output files
-    ofstream statisticsFile(fileName);
+    ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
     if (!statisticsFile.is_open()) {
         cout << "Error: Unable to open the output file " << fileName << endl;
@@ -156,7 +156,7 @@ void AvlTree::printMostFrequent(const string& fileName) const{
     string mostFreqString = rootPtr->item;
 
     // Open the output files
-    ofstream statisticsFile(fileName);
+    ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
     if (!statisticsFile.is_open()) {
         cout << "Error: Unable to open the output file " << fileName << endl;
@@ -176,7 +176,7 @@ void AvlTree::printLeastFrequent(const string& fileName) const{
     string leastFreqString = rootPtr->item;
 
     // Open the output files
-    ofstream statisticsFile(fileName);
+    ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
     if (!statisticsFile.is_open()) {
         cout << "Error: Unable to open the output file " << fileName << endl;
@@ -193,7 +193,7 @@ void AvlTree::printLeastFrequent(const string& fileName) const{
 
 void AvlTree::printStandartDeviation(const string& fileName) const{
     // Open the output files
-    ofstream statisticsFile(fileName);
+    ofstream statisticsFile(fileName, std::ios::app);
     // check if the files are open
     if (!statisticsFile.is_open()) {
         cout << "Error: Unable to open the output file " << fileName << endl;

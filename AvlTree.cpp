@@ -60,7 +60,7 @@ void AvlTree::generateTree(const string& fileName){
 
         while(startPos < aWord.size()){
             // get the first non-punct char 
-            while( ispunct(aWord[startPos]) ){
+            while( ispunct(aWord[startPos]) && startPos < aWord.size() ){
                 startPos++;
             }
             
@@ -78,8 +78,10 @@ void AvlTree::generateTree(const string& fileName){
             }
             startPos = endPos+1;    //update the startPos for the next possible word
 
-            // cout << wordToBeAdded << endl;                                                          // DELETE LATER
-            addWord(wordToBeAdded); // addition of the word to the AVL tree
+            if(!wordToBeAdded.empty()){
+                cout << "\"" << wordToBeAdded <<  "\"" << endl;                                                         // DELETE LATER
+                addWord(wordToBeAdded); // addition of the word to the AVL tree
+            } 
         }
     }
 }
@@ -431,6 +433,7 @@ void printWordToFile(const string& fileName, string& anItem, int& count){
     }
     // print word and its count
     wordFreqFile << anItem << " " << count << endl;
+    // cout << anItem << " " << count << endl;                                     // DELETE LATER
     // close file
     wordFreqFile.close();
 }

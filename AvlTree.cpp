@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <vector>
 using namespace std;
 
 //------------------------------------------------------------ 
@@ -167,8 +168,17 @@ void AvlTree::printMostFrequent(const string& fileName) {
     }
 
     inorderTraverseForMinMax(findMaxFrequent, mostFreqString, maxCount);
+    vector<string> allMostFreqStrings;
+    inorderTraverseOtherMinMax(findOtherMaxMinFrequentWords, maxCount, allMostFreqStrings);
 
-    statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
+    if(allMostFreqStrings.empty()){
+        statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
+    } else{
+        statisticsFile << "Most Frequent: ";
+        for (int i = 0; i != allMostFreqStrings.size(); ++i)
+            statisticsFile << allMostFreqStrings[i] << " " << maxCount << " ";
+        statisticsFile << endl;
+    }
 
     // Close the output files
     statisticsFile.close();
@@ -189,8 +199,17 @@ void AvlTree::printLeastFrequent(const string& fileName) {
     }
 
     inorderTraverseForMinMax(findLeastFrequent, leastFreqString, minCount);
+    vector<string> allLeastFreqStrings;
+    inorderTraverseOtherMinMax(findOtherMaxMinFrequentWords, minCount, allLeastFreqStrings);
 
-    statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
+    if(allLeastFreqStrings.empty()){
+        statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
+    } else{
+        statisticsFile << "Least Frequent: ";
+        for (int i = 0; i != allLeastFreqStrings.size(); ++i)
+            statisticsFile << allLeastFreqStrings[i] << " " << minCount << " ";
+        statisticsFile << endl;
+    }
 
     // Close the output files
     statisticsFile.close();
@@ -402,6 +421,20 @@ void AvlTree::inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode,
     } // end if
 } // end inorderHelperForMinMax
 
+void AvlTree::inorderTraverseOtherMinMax(FunctionType4 visit, int& countMinMax, vector<string>& wordsMinMax ){
+    inorderHelperOtherMinMax(rootPtr, visit, countMinMax, wordsMinMax);
+}
+
+void AvlTree::inorderHelperOtherMinMax(TreeNode* treePtr, FunctionType4 visit, int& countMinMAx, vector<string>& wordsMinMax){
+    if(treePtr != nullptr){
+        inorderHelperOtherMinMax(treePtr->leftChildPtr, visit, countMinMAx, wordsMinMax);
+        string theNodeItem = treePtr->item;
+        int theItemCount = treePtr->count;
+        visit(theNodeItem, theItemCount, countMinMAx, wordsMinMax);
+        inorderHelperOtherMinMax(treePtr->rightChildPtr, visit, countMinMAx, wordsMinMax);
+    }
+}
+
 void AvlTree::inorderTraverseForStd(FunctionType3 visit, int*& anArray, int& position){
     inorderHelperForStd(rootPtr, visit, anArray, position);
 } // end inorderTraverseForStd
@@ -450,6 +483,11 @@ void findLeastFrequent( string& anItem, int& count, string& leastFreqString, int
         minCount = count;
         leastFreqString = anItem;
     }
+}
+
+void findOtherMaxMinFrequentWords(string& anItem, int& count, int& countMinMax, vector<string>& wordsMinMax ){
+    if(count == countMinMax)
+        wordsMinMax.push_back(anItem);
 }
 
 void putCountsInArray( int*& anArray, int& position, int& count){

@@ -12,6 +12,7 @@
 
 #include "TreeNode.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 
 // Function prototype for displayNodeProperties and printWordToFile
@@ -19,6 +20,7 @@ void displayNodeProperties(string& anItem, int& count);
 void printWordToFile(const string& fileName, string& anitem, int& count);
 void findMaxFrequent(string& anItem, int& count, string& mostFreqString, int& maxCount );
 void findLeastFrequent(string& anItem, int& count, string& leastFreqString, int& minCount );
+void findOtherMaxMinFrequentWords(string& anItem, int& itemCount, int& countMinMax, vector<string>& WordsMinMax );
 void putCountsInArray( int*& anArray, int& position, int& count);
 
 class AvlTree
@@ -82,6 +84,10 @@ protected:
     typedef void (*FunctionType2)(string& anItem, int& count, string& theString, int& theCount);
     void inorderTraverseForMinMax(FunctionType2 visitNode, string& theString, int& theCount);
     void inorderHelperForMinMax(TreeNode* treePtr, FunctionType2 visitNode, string& theString, int& theCount);
+
+    typedef void (*FunctionType4)(string& anItem, int& count, int& countMinMax, vector<string>& wordsMinMax );
+    void inorderTraverseOtherMinMax(FunctionType4 visit, int& countMinMax, vector<string>& wordsMinMax);
+    void inorderHelperOtherMinMax(TreeNode* treePtr, FunctionType4 visit, int& countMinMax, vector<string>& wordsMinMax );
 
     typedef void (*FunctionType3)(int*& anArray, int& position, int& count);
     void inorderTraverseForStd(FunctionType3 visit, int*& anArray, int& position);

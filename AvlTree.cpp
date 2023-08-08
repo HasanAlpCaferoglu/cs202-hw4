@@ -13,6 +13,7 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <cctype>
 using namespace std;
 
 //------------------------------------------------------------ 
@@ -61,13 +62,13 @@ void AvlTree::generateTree(const string& fileName){
 
         while(startPos < aWord.size()){
             // get the first non-punct char 
-            while( ispunct(aWord[startPos]) && startPos < aWord.size() ){
+            while(startPos < aWord.size() && ispunct(aWord[startPos])){
                 startPos++;
             }
             
             endPos = startPos+1;   // set endPost
             // get the positon of a char upto a punctionation
-            while( !ispunct(aWord[endPos]) && endPos < aWord.size()){
+            while( endPos < aWord.size() && !ispunct(aWord[endPos]) ){
                 endPos++;
             }
             
@@ -172,7 +173,7 @@ void AvlTree::printMostFrequent(const string& fileName) {
         statisticsFile << "Most Frequent: " << mostFreqString << " " << maxCount << endl;
     } else{
         statisticsFile << "Most Frequent: ";
-        for (int i = 0; i != allMostFreqStrings.size(); ++i)
+        for (int i = 0; i < allMostFreqStrings.size(); i++)
             statisticsFile << allMostFreqStrings[i] << " " << maxCount << " ";
         statisticsFile << endl;
     }
@@ -201,7 +202,7 @@ void AvlTree::printLeastFrequent(const string& fileName) {
         statisticsFile << "Least Frequent: " << leastFreqString << " " << minCount << endl;
     } else{
         statisticsFile << "Least Frequent: ";
-        for (int i = 0; i != allLeastFreqStrings.size(); ++i)
+        for (int i = 0; i < allLeastFreqStrings.size(); i++)
             statisticsFile << allLeastFreqStrings[i] << " " << minCount << " ";
         statisticsFile << endl;
     }

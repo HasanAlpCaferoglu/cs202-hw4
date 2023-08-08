@@ -17,7 +17,6 @@ int main( int argc, char** argv ) {
 
     AvlTree tree;
     string fileName(argv[1]);
-    cout << "--------------------" << endl;                 // DELETE LATER
 
     tree.generateTree(fileName);
     // Output file names

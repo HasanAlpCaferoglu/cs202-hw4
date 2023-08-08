@@ -80,7 +80,6 @@ void AvlTree::generateTree(const string& fileName){
             startPos = endPos+1;    //update the startPos for the next possible word
 
             if(!wordToBeAdded.empty()){
-                cout << "\"" << wordToBeAdded <<  "\"" << endl;                                                         // DELETE LATER
                 addWord(wordToBeAdded); // addition of the word to the AVL tree
             } 
         }
@@ -130,7 +129,6 @@ void AvlTree::printHeight(const string& fileName) const{
     // Close the output files
     statisticsFile.close();
 
-    cout << "Tree Height: " << treeHeight << endl;                             // DELETE LATER
 }
 
 void AvlTree::printTotalWordCount(const string& fileName) const{
@@ -148,7 +146,6 @@ void AvlTree::printTotalWordCount(const string& fileName) const{
     // Close the output files
     statisticsFile.close();
 
-    cout << "Total Word Count: " << totalWordCount << endl;                             // DELETE LATER
 }
 
 void AvlTree::printWordFrequencies(const string& fileName) const{
@@ -182,8 +179,6 @@ void AvlTree::printMostFrequent(const string& fileName) {
 
     // Close the output files
     statisticsFile.close();
-
-    cout << "Most Frequent: " << mostFreqString << " " << maxCount << endl;                                  // DELETE LATER
 }
 
 void AvlTree::printLeastFrequent(const string& fileName) {
@@ -214,7 +209,6 @@ void AvlTree::printLeastFrequent(const string& fileName) {
     // Close the output files
     statisticsFile.close();
 
-    cout << "Least Frequent: " << leastFreqString << " " << minCount << endl;                           // DELETE LATER
 }
 
 void AvlTree::printStandartDeviation(const string& fileName){
@@ -244,7 +238,6 @@ void AvlTree::printStandartDeviation(const string& fileName){
 
     float standardDeviation = sqrt(sumOfDifferenceSquare / itemCount);
     statisticsFile << "Standard Deviation: " << standardDeviation << endl;
-    cout << "Standard Deviation: " << standardDeviation << endl;                    //DELETE LATER
 
     // delete the array
     delete[] countArray;
@@ -328,14 +321,12 @@ void AvlTree::addWordHelper(TreeNode*& treePtr, const string& newItem){
     }
     // if there is no imbalance just update the height
     else{
-        // cout << "Updating height of the node " << treePtr->item << endl;                        // DELETE LATER
         updateNodeHeight(treePtr);
     }
 
 } // end addWordHelper
 
 void AvlTree::updateNodeHeight(TreeNode*& node){  
-    // cout << "Height of node " << node->item << " was " << node->height;                        // DELETE LATER
     if(node->leftChildPtr != nullptr && node->rightChildPtr != nullptr){
         node->height = 1+max(node->leftChildPtr->getHeight(), node->rightChildPtr->getHeight());
     }
@@ -348,9 +339,6 @@ void AvlTree::updateNodeHeight(TreeNode*& node){
     else{
         node->height = 1;
     }
-
-    // cout << ". Now it becomes " << node->height << endl;                                        // DELETE LATER
-
 } // end updateNodeHeight
 
 //------------------------------------------------------------ 
@@ -358,7 +346,6 @@ void AvlTree::updateNodeHeight(TreeNode*& node){
 //------------------------------------------------------------
 
 void AvlTree::leftRotate(TreeNode*& node){
-    // cout << "left rotate around " << node->item << endl;                                     // DELETE LATER
     TreeNode* p = node->rightChildPtr;
     node->rightChildPtr = p->leftChildPtr;
     updateNodeHeight(node); // update the height of node after its right child changed
@@ -368,7 +355,6 @@ void AvlTree::leftRotate(TreeNode*& node){
 } // end leftRotate
 
 void AvlTree::rightRotate(TreeNode*& node){
-    // cout << "right rotate around " << node->item << endl;                                    // DELETE LATER
     TreeNode* p = node->leftChildPtr;
     node->leftChildPtr = p->rightChildPtr;
     updateNodeHeight(node); // update the height of node after its left child changed
@@ -378,13 +364,11 @@ void AvlTree::rightRotate(TreeNode*& node){
 } // end rightRotate
 
 void AvlTree::leftRightRotate(TreeNode*& node){
-    // cout << "left-right rotate around " << node->item << endl;                               // DELETE LATER
     leftRotate(node->leftChildPtr);
     rightRotate(node);
 } // end leftRightRotate
 
 void AvlTree::rightLeftRotate(TreeNode*& node){
-    // cout << "right-left rotate around " << node->item << endl;                               // DELETE LATER
     rightRotate(node->rightChildPtr);
     leftRotate(node);
 } // end rightLeftRotate
@@ -466,7 +450,6 @@ void printWordToFile(const string& fileName, string& anItem, int& count){
     }
     // print word and its count
     wordFreqFile << anItem << " " << count << endl;
-    // cout << anItem << " " << count << endl;                                     // DELETE LATER
     // close file
     wordFreqFile.close();
 }
